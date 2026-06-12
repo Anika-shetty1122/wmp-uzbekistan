@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zandra Weekly Business Report — Brand Manager</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  :root {
+    --gold: #C9A96E; --gold-pale: #FBF7F0; --gold-light: #F5EDD8;
+    --ink: #1A1A1A; --ink-mid: #555; --ink-light: #999;
+    --border: #E5DDD0; --white: #fff;
+    --alpha: #7B5EA7; --acnexa: #3A7CA5;
+    --red: #B94040; --red-bg: #FDF0F0;
+    --green: #2D7A4F; --green-bg: #EAF5EE;
+    --amber: #B07D2A; --amber-bg: #FDF5E6;
+    --r: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--gold-pale); color: var(--ink); padding: 1.5rem 1rem 5rem; }
+
+  .lang-bar { display: flex; justify-content: flex-end; max-width: 680px; margin: 0 auto 1.25rem; gap: .5rem; }
+  .lbtn { padding: .35rem .9rem; border: 1.5px solid var(--border); background: var(--white); border-radius: 20px; font-size: .75rem; font-weight: 600; cursor: pointer; color: var(--ink-light); transition: all .2s; }
+  .lbtn.on { background: var(--gold); border-color: var(--gold); color: var(--white); }
+
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r); padding: 1.75rem; max-width: 680px; margin: 0 auto 1rem; }
+
+  .hdr { background: linear-gradient(135deg, #0E0E1A 0%, #1C1628 100%); color: var(--white); text-align: center; padding: 2.25rem 2rem; }
+  .eyebrow { font-size: .65rem; font-weight: 700; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: .6rem; }
+  .hdr h1 { font-size: 1.45rem; font-weight: 700; margin-bottom: .3rem; }
+  .hdr p { font-size: .8rem; color: rgba(255,255,255,.45); }
+  .badge { display: inline-block; background: rgba(201,169,110,.15); color: var(--gold); border-radius: 20px; padding: .28rem .75rem; font-size: .7rem; font-weight: 600; margin-top: .65rem; }
+
+  .sec-title { font-size: .62rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding-bottom: .55rem; border-bottom: 1.5px solid var(--border); margin-bottom: 1.4rem; color: var(--ink-light); }
+  .sec-title.alpha { color: var(--alpha); border-color: var(--alpha); }
+  .sec-title.acnexa { color: var(--acnexa); border-color: var(--acnexa); }
+  .sec-title.gold { color: var(--gold); border-color: var(--gold); }
+  .sec-title.red { color: var(--red); border-color: var(--red); }
+
+  .qb { margin-bottom: 1.4rem; }
+  .qb:last-child { margin-bottom: 0; }
+  .ql { display: block; font-size: .82rem; font-weight: 600; margin-bottom: .25rem; line-height: 1.45; }
+  .qs { display: block; font-size: .7rem; color: var(--ink-light); margin-bottom: .6rem; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .pills input { display: none; }
+  .pills label { padding: .38rem .85rem; border: 1.5px solid var(--border); border-radius: 20px; font-size: .76rem; font-weight: 500; cursor: pointer; color: var(--ink-mid); transition: all .15s; user-select: none; }
+  .pills.def input:checked + label { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .pills.alpha input:checked + label { background: var(--alpha); border-color: var(--alpha); color: #fff; }
+  .pills.acnexa input:checked + label { background: var(--acnexa); border-color: var(--acnexa); color: #fff; }
+  .pills.gold input:checked + label { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .pills.red input:checked + label { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .scale { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .2rem; }
+  .scale input { display: none; }
+  .scale label { width: 38px; height: 38px; border-radius: 8px; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: .78rem; font-weight: 600; cursor: pointer; color: var(--ink-mid); transition: all .15s; }
+  .scale.def input:checked + label { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .scale.alpha input:checked + label { background: var(--alpha); border-color: var(--alpha); color: #fff; }
+  .scale.acnexa input:checked + label { background: var(--acnexa); border-color: var(--acnexa); color: #fff; }
+  .scale.gold input:checked + label { background: var(--gold); border-color: var(--gold); color: #fff; }
+  .scale-ends { display: flex; justify-content: space-between; margin-top: .3rem; font-size: .65rem; color: var(--ink-light); }
+
+  .stepper { display: flex; align-items: center; gap: .7rem; margin-top: .2rem; }
+  .stepper button { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--white); font-size: 1rem; cursor: pointer; color: var(--ink); display: flex; align-items: center; justify-content: center; transition: all .15s; }
+  .stepper button:hover { border-color: var(--gold); color: var(--gold); }
+  .stepper .n { font-size: 1.35rem; font-weight: 700; min-width: 1.8rem; text-align: center; }
+  .stepper .unit { font-size: .7rem; color: var(--ink-light); }
+
+  textarea, input[type=text], input[type=date] { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: .6rem .8rem; font-family: 'Inter', sans-serif; font-size: .81rem; color: var(--ink); resize: none; outline: none; transition: border-color .15s; background: var(--white); }
+  textarea:focus, input[type=text]:focus, input[type=date]:focus { border-color: var(--gold); }
+  .other-input { display: none; margin-top: .5rem; }
+  .other-input.show { display: block; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media(max-width:500px){ .two { grid-template-columns: 1fr; } }
+
+  .tlight { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .25rem; }
+  .tlight input { display: none; }
+  .tlight label { padding: .42rem 1rem; border: 1.5px solid var(--border); border-radius: 20px; font-size: .76rem; font-weight: 600; cursor: pointer; color: var(--ink-mid); transition: all .15s; }
+  .tlight input[value="green"]:checked + label { background: var(--green); border-color: var(--green); color: #fff; }
+  .tlight input[value="amber"]:checked + label { background: var(--amber); border-color: var(--amber); color: #fff; }
+  .tlight input[value="red"]:checked + label { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .pstack { display: flex; flex-direction: column; gap: .45rem; margin-top: .25rem; }
+  .pstack input { display: none; }
+  .pstack label { padding: .55rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; font-size: .79rem; font-weight: 500; cursor: pointer; color: var(--ink-mid); transition: all .15s; }
+  .pstack.alpha input:checked + label { background: var(--alpha); border-color: var(--alpha); color: #fff; }
+  .pstack.acnexa input:checked + label { background: var(--acnexa); border-color: var(--acnexa); color: #fff; }
+  .pstack.gold input:checked + label { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+  .info { background: var(--gold-light); border-left: 3px solid var(--gold); border-radius: 8px; padding: .65rem .9rem; font-size: .72rem; color: var(--ink-mid); margin-bottom: 1.2rem; line-height: 1.5; }
+
+  .submit { display: block; width: 100%; max-width: 680px; margin: 0 auto; padding: 1rem; background: linear-gradient(135deg, #0E0E1A, #1C1628); color: #fff; border: none; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: .9rem; font-weight: 600; letter-spacing: .04em; cursor: pointer; transition: opacity .2s; }
+  .submit:hover { opacity: .85; }
+  .submit:disabled { opacity: .5; cursor: not-allowed; }
+
+  .done { display: none; text-align: center; padding: 3rem 2rem; }
+  .done.show { display: block; }
+  .wrap.hide { display: none; }
+  .tick { width: 56px; height: 56px; background: var(--green-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; }
+
+  body.ru .en { display: none !important; }
+  body.en .ru { display: none !important; }
+  .divider { height: 1px; background: var(--border); margin: 1.25rem 0; }
+
+  .err-msg { display: none; background: #FDF0F0; border: 1px solid #F2CECE; color: #B94040; border-radius: 8px; padding: .6rem .9rem; font-size: .78rem; margin-bottom: .75rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .err-msg.show { display: block; }
+</style>
+</head>
+<body class="en">
+
+<div class="lang-bar">
+  <button class="lbtn on" onclick="setLang('en')">EN</button>
+  <button class="lbtn" onclick="setLang('ru')">RU</button>
+</div>
+
+<div class="err-msg" id="errMsg">Submission failed. Please check your connection and try again.</div>
+
+<div class="wrap" id="wrap">
+
+  <!-- Header -->
+  <div class="card hdr">
+    <div class="eyebrow">Zandra Life Sciences</div>
+    <h1 class="en">Weekly Business Report</h1>
+    <h1 class="ru">Еженедельный бизнес-отчёт</h1>
+    <p class="en">Brand Manager · Uzbekistan</p>
+    <p class="ru">Бренд-менеджер · Узбекистан</p>
+    <div class="badge">⏱ ~5 min</div>
+  </div>
+
+  <!-- Identity -->
+  <div class="card">
+    <div class="sec-title en">DETAILS</div>
+    <div class="sec-title ru">ДАННЫЕ</div>
+    <div class="two">
+      <div class="qb">
+        <label class="ql en">Name</label>
+        <label class="ql ru">Имя</label>
+        <input type="text" id="bmName" placeholder="Full name / Полное имя">
+      </div>
+      <div class="qb">
+        <label class="ql en">Week ending</label>
+        <label class="ql ru">Конец недели</label>
+        <input type="date" id="weekEnding">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section A: Business Snapshot -->
+  <div class="card">
+    <div class="sec-title gold en">A · BUSINESS SNAPSHOT</div>
+    <div class="sec-title gold ru">A · БИЗНЕС-СНАПШОТ</div>
+
+    <div class="info en">These numbers feed the weekly intelligence brief directly. Be as accurate as possible — estimates are fine.</div>
+    <div class="info ru">Эти данные напрямую поступают в еженедельный аналитический брифинг. Будьте точны — приблизительные цифры приемлемы.</div>
+
+    <div class="qb">
+      <label class="ql en">1. Estimated prescriptions generated this week across both ranges</label>
+      <label class="ql ru">1. Предполагаемое количество назначений по обеим линейкам на этой неделе</label>
+      <label class="qs en">Your best estimate based on field rep reports and your own interactions.</label>
+      <label class="qs ru">Ваша лучшая оценка на основе отчётов представителей и ваших собственных взаимодействий.</label>
+      <div class="two">
+        <div>
+          <label class="qs" style="margin-bottom:.3rem;font-weight:600;color:var(--alpha)">Alpha Biselen</label>
+          <div class="stepper">
+            <button type="button" onclick="adj('abRx',-1)">−</button>
+            <span class="n" id="abRx">0</span>
+            <button type="button" onclick="adj('abRx',1)">+</button>
+            <span class="unit en">Rx</span>
+            <span class="unit ru">назн.</span>
+          </div>
+        </div>
+        <div>
+          <label class="qs" style="margin-bottom:.3rem;font-weight:600;color:var(--acnexa)">Acnexa</label>
+          <div class="stepper">
+            <button type="button" onclick="adj('acnRx',-1)">−</button>
+            <span class="n" id="acnRx">0</span>
+            <button type="button" onclick="adj('acnRx',1)">+</button>
+            <span class="unit en">Rx</span>
+            <span class="unit ru">назн.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">2. Overall business momentum this week vs last week</label>
+      <label class="ql ru">2. Общая бизнес-динамика на этой неделе по сравнению с прошлой</label>
+      <div class="tlight">
+        <input type="radio" name="momentum" id="mom-g" value="green">
+        <label for="mom-g" class="en">↑ Growing</label><label for="mom-g" class="ru">↑ Рост</label>
+        <input type="radio" name="momentum" id="mom-a" value="amber">
+        <label for="mom-a" class="en">→ Holding</label><label for="mom-a" class="ru">→ Стабильно</label>
+        <input type="radio" name="momentum" id="mom-r" value="red">
+        <label for="mom-r" class="en">↓ Declining</label><label for="mom-r" class="ru">↓ Снижение</label>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">3. Which product range had a better week?</label>
+      <label class="ql ru">3. У какой линейки продуктов была лучше неделя?</label>
+      <div class="pills def">
+        <input type="radio" name="betterRange" id="br1" value="alpha"><label for="br1">Alpha Biselen</label>
+        <input type="radio" name="betterRange" id="br2" value="acnexa"><label for="br2">Acnexa</label>
+        <input type="radio" name="betterRange" id="br3" value="equal"><label for="br3" class="en">Both equal</label><label for="br3" class="ru">Одинаково</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section B: Marketing -->
+  <div class="card">
+    <div class="sec-title alpha en">B · MARKETING — WHAT'S WORKING &amp; WHAT'S NOT</div>
+    <div class="sec-title alpha ru">B · МАРКЕТИНГ — ЧТО РАБОТАЕТ, ЧТО НЕТ</div>
+
+    <div class="qb">
+      <label class="ql en">4. Are your current marketing materials actually helping reps close conversations?</label>
+      <label class="ql ru">4. Действительно ли текущие маркетинговые материалы помогают представителям завершать разговоры?</label>
+      <div class="two">
+        <div>
+          <label class="qs" style="font-weight:600;color:var(--alpha);margin-bottom:.4rem">Alpha Biselen</label>
+          <div class="scale alpha">
+            <input type="radio" name="abMat" id="abm1" value="1"><label for="abm1">1</label>
+            <input type="radio" name="abMat" id="abm2" value="2"><label for="abm2">2</label>
+            <input type="radio" name="abMat" id="abm3" value="3"><label for="abm3">3</label>
+            <input type="radio" name="abMat" id="abm4" value="4"><label for="abm4">4</label>
+            <input type="radio" name="abMat" id="abm5" value="5"><label for="abm5">5</label>
+          </div>
+          <div class="scale-ends"><span class="en">Not helping</span><span class="ru">Не помогают</span><span class="en">Very effective</span><span class="ru">Очень эффективны</span></div>
+        </div>
+        <div>
+          <label class="qs" style="font-weight:600;color:var(--acnexa);margin-bottom:.4rem">Acnexa</label>
+          <div class="scale acnexa">
+            <input type="radio" name="acnMat" id="acnm1" value="1"><label for="acnm1">1</label>
+            <input type="radio" name="acnMat" id="acnm2" value="2"><label for="acnm2">2</label>
+            <input type="radio" name="acnMat" id="acnm3" value="3"><label for="acnm3">3</label>
+            <input type="radio" name="acnMat" id="acnm4" value="4"><label for="acnm4">4</label>
+            <input type="radio" name="acnMat" id="acnm5" value="5"><label for="acnm5">5</label>
+          </div>
+          <div class="scale-ends"><span class="en">Not helping</span><span class="ru">Не помогают</span><span class="en">Very effective</span><span class="ru">Очень эффективны</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">5. What single marketing asset would make the biggest difference right now?</label>
+      <label class="ql ru">5. Какой маркетинговый материал сделал бы наибольший вклад прямо сейчас?</label>
+      <div class="pstack gold">
+        <input type="radio" name="mktAsset" id="ma1" value="objection-card">
+        <label for="ma1" class="en">Objection-handling pocket card for reps</label><label for="ma1" class="ru">Карманная карточка работы с возражениями для представителей</label>
+        <input type="radio" name="mktAsset" id="ma2" value="clinical-summary">
+        <label for="ma2" class="en">Clinical evidence one-pager for doctors</label><label for="ma2" class="ru">Одностраничник с клиническими данными для врачей</label>
+        <input type="radio" name="mktAsset" id="ma3" value="comparison-visual">
+        <label for="ma3" class="en">Competitor comparison visual</label><label for="ma3" class="ru">Визуал сравнения с конкурентами</label>
+        <input type="radio" name="mktAsset" id="ma4" value="patient-material">
+        <label for="ma4" class="en">Patient-facing education material</label><label for="ma4" class="ru">Образовательный материал для пациентов</label>
+        <input type="radio" name="mktAsset" id="ma5" value="digital-content">
+        <label for="ma5" class="en">Digital / social content for brand awareness</label><label for="ma5" class="ru">Цифровой / социальный контент для узнаваемости бренда</label>
+        <input type="radio" name="mktAsset" id="ma6" value="other" onchange="showOther('mktAssetOther', true)">
+        <label for="ma6" class="en">Other</label><label for="ma6" class="ru">Другое</label>
+      </div>
+      <div class="other-input" id="mktAssetOther">
+        <input type="text" id="mktAssetOtherText" placeholder="Specify / Укажите">
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">6. Is there a specific doctor message or claim that is consistently not landing?</label>
+      <label class="ql ru">6. Есть ли конкретное сообщение или утверждение, которое стабильно не работает у врачей?</label>
+      <textarea id="claimNotLanding" rows="2" placeholder="e.g. 'The selenium bioavailability claim — doctors don't find it relevant'"></textarea>
+    </div>
+  </div>
+
+  <!-- Section C: Product Strategy -->
+  <div class="card">
+    <div class="sec-title acnexa en">C · PRODUCT STRATEGY</div>
+    <div class="sec-title acnexa ru">C · ПРОДУКТОВАЯ СТРАТЕГИЯ</div>
+
+    <div class="qb">
+      <label class="ql en">7. Which SKU needs the most strategic attention right now?</label>
+      <label class="ql ru">7. Какой SKU требует наибольшего стратегического внимания прямо сейчас?</label>
+      <label class="qs en">The one that's underperforming or has untapped potential.</label>
+      <label class="qs ru">Тот, который не дотягивает или имеет нераскрытый потенциал.</label>
+      <div class="pills def">
+        <input type="radio" name="skuFocus" id="sf1" value="ab-classic"><label for="sf1">AB Classic</label>
+        <input type="radio" name="skuFocus" id="sf2" value="ab-intense"><label for="sf2">AB Intense</label>
+        <input type="radio" name="skuFocus" id="sf3" value="ab-dht"><label for="sf3">AB DHT</label>
+        <input type="radio" name="skuFocus" id="sf4" value="acn-caps"><label for="sf4" class="en">Acnexa Caps</label><label for="sf4" class="ru">Acnexa Капсулы</label>
+        <input type="radio" name="skuFocus" id="sf5" value="acn-fw"><label for="sf5" class="en">Acnexa FW</label><label for="sf5" class="ru">Acnexa Гель</label>
+        <input type="radio" name="skuFocus" id="sf6" value="acn-moist"><label for="sf6" class="en">Acnexa Moist.</label><label for="sf6" class="ru">Acnexa Крем</label>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">8. Why is that SKU struggling or underpenetrated? What's the real barrier?</label>
+      <label class="ql ru">8. Почему этот SKU не дотягивает? В чём реальный барьер?</label>
+      <div class="pills def">
+        <input type="radio" name="skuBarrier" id="sb1" value="awareness">
+        <label for="sb1" class="en">Doctors unaware of it</label><label for="sb1" class="ru">Врачи не знают о нём</label>
+        <input type="radio" name="skuBarrier" id="sb2" value="price">
+        <label for="sb2" class="en">Price point</label><label for="sb2" class="ru">Ценовой барьер</label>
+        <input type="radio" name="skuBarrier" id="sb3" value="evidence">
+        <label for="sb3" class="en">Lack of clinical evidence</label><label for="sb3" class="ru">Недостаток клинических данных</label>
+        <input type="radio" name="skuBarrier" id="sb4" value="competitor">
+        <label for="sb4" class="en">Competitor is dominant</label><label for="sb4" class="ru">Конкурент доминирует</label>
+        <input type="radio" name="skuBarrier" id="sb5" value="rep-confidence">
+        <label for="sb5" class="en">Reps not confident detailing it</label><label for="sb5" class="ru">Представители не уверены при детализации</label>
+        <input type="radio" name="skuBarrier" id="sb6" value="other" onchange="showOther('skuBarrierOther', true)">
+        <label for="sb6" class="en">Other</label><label for="sb6" class="ru">Другое</label>
+      </div>
+      <div class="other-input" id="skuBarrierOther">
+        <input type="text" id="skuBarrierOtherText" placeholder="Specify / Укажите">
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">9. Any product feedback from doctors this week that should influence formulation or positioning?</label>
+      <label class="ql ru">9. Есть ли обратная связь от врачей, которая должна повлиять на формуляцию или позиционирование?</label>
+      <textarea id="productFeedback" rows="2" placeholder="e.g. 'Multiple dermatologists asked if Acnexa has a niacinamide version'"></textarea>
+    </div>
+  </div>
+
+  <!-- Section D: Team & Field Force -->
+  <div class="card">
+    <div class="sec-title en">D · TEAM &amp; FIELD FORCE</div>
+    <div class="sec-title ru">D · КОМАНДА И ПОЛЕВЫЕ СИЛЫ</div>
+
+    <div class="qb">
+      <label class="ql en">10. Overall field team performance this week</label>
+      <label class="ql ru">10. Общая эффективность полевой команды на этой неделе</label>
+      <div class="scale gold">
+        <input type="radio" name="teamPerf" id="tp1" value="1"><label for="tp1">1</label>
+        <input type="radio" name="teamPerf" id="tp2" value="2"><label for="tp2">2</label>
+        <input type="radio" name="teamPerf" id="tp3" value="3"><label for="tp3">3</label>
+        <input type="radio" name="teamPerf" id="tp4" value="4"><label for="tp4">4</label>
+        <input type="radio" name="teamPerf" id="tp5" value="5"><label for="tp5">5</label>
+      </div>
+      <div class="scale-ends">
+        <span class="en">Below expectations</span><span class="ru">Ниже ожиданий</span>
+        <span class="en">Exceeded expectations</span><span class="ru">Превысила ожидания</span>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">11. Is there a specific rep or territory that needs attention this week?</label>
+      <label class="ql ru">11. Есть ли конкретный представитель или территория, которые требуют внимания на этой неделе?</label>
+      <div class="pills def">
+        <input type="radio" name="repAttention" id="ra-yes" value="yes" onchange="showRepDetail(true)">
+        <label for="ra-yes" class="en">Yes</label><label for="ra-yes" class="ru">Да</label>
+        <input type="radio" name="repAttention" id="ra-no" value="no" onchange="showRepDetail(false)">
+        <label for="ra-no" class="en">No</label><label for="ra-no" class="ru">Нет</label>
+      </div>
+    </div>
+
+    <div id="repDetail" style="display:none">
+      <div class="qb">
+        <label class="ql en">What's the issue, and what support is needed?</label>
+        <label class="ql ru">В чём проблема, и какая поддержка нужна?</label>
+        <textarea id="repAttentionDetail" rows="2" placeholder="Brief description / Краткое описание"></textarea>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">12. What does the field team need from HQ most this week?</label>
+      <label class="ql ru">12. Что полевой команде больше всего нужно от HQ на этой неделе?</label>
+      <div class="pstack gold">
+        <input type="radio" name="hqNeed" id="hn1" value="training">
+        <label for="hn1" class="en">Product knowledge / detailing training</label><label for="hn1" class="ru">Знание продукта / обучение детализации</label>
+        <input type="radio" name="hqNeed" id="hn2" value="materials">
+        <label for="hn2" class="en">New or updated marketing materials</label><label for="hn2" class="ru">Новые или обновлённые маркетинговые материалы</label>
+        <input type="radio" name="hqNeed" id="hn3" value="motivation">
+        <label for="hn3" class="en">Motivation / recognition</label><label for="hn3" class="ru">Мотивация / признание</label>
+        <input type="radio" name="hqNeed" id="hn4" value="clarity">
+        <label for="hn4" class="en">Strategic clarity on priorities</label><label for="hn4" class="ru">Стратегическая ясность по приоритетам</label>
+        <input type="radio" name="hqNeed" id="hn5" value="nothing">
+        <label for="hn5" class="en">Nothing urgent right now</label><label for="hn5" class="ru">Ничего срочного прямо сейчас</label>
+        <input type="radio" name="hqNeed" id="hn6" value="other" onchange="showOther('hqNeedOther', true)">
+        <label for="hn6" class="en">Other</label><label for="hn6" class="ru">Другое</label>
+      </div>
+      <div class="other-input" id="hqNeedOther">
+        <input type="text" id="hqNeedOtherText" placeholder="Specify / Укажите">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section E: Competitive & Market -->
+  <div class="card">
+    <div class="sec-title red en">E · COMPETITIVE &amp; MARKET INTELLIGENCE</div>
+    <div class="sec-title red ru">E · КОНКУРЕНТНАЯ И РЫНОЧНАЯ АНАЛИТИКА</div>
+
+    <div class="qb">
+      <label class="ql en">13. Did any competitor make a notable move this week?</label>
+      <label class="ql ru">13. Предпринял ли какой-либо конкурент заметный шаг на этой неделе?</label>
+      <div class="pills def">
+        <input type="radio" name="compMove" id="cpm-yes" value="yes" onchange="showComp(true)">
+        <label for="cpm-yes" class="en">Yes</label><label for="cpm-yes" class="ru">Да</label>
+        <input type="radio" name="compMove" id="cpm-no" value="no" onchange="showComp(false)">
+        <label for="cpm-no" class="en">No</label><label for="cpm-no" class="ru">Нет</label>
+      </div>
+    </div>
+
+    <div id="compDetail" style="display:none">
+      <div class="qb">
+        <label class="ql en">What happened, and which brand?</label>
+        <label class="ql ru">Что произошло, и какой бренд?</label>
+        <textarea id="compMoveDetail" rows="2" placeholder="e.g. 'Pantovigar launched a new rep campaign in Tashkent with pharmacy displays'"></textarea>
+      </div>
+    </div>
+
+    <div class="qb">
+      <label class="ql en">14. One thing you'd flag as a business risk or opportunity for next week</label>
+      <label class="ql ru">14. Один риск или возможность для бизнеса на следующей неделю</label>
+      <label class="qs en">Think: what could change, what should we act on, what are we missing?</label>
+      <label class="qs ru">Подумайте: что может измениться, на что стоит отреагировать, что мы упускаем?</label>
+      <textarea id="riskOpportunity" rows="2" placeholder="Your strategic read / Ваш стратегический взгляд"></textarea>
+    </div>
+  </div>
+
+  <button class="submit" id="submitBtn" onclick="submitForm()">
+    <span class="en">Submit Business Report →</span>
+    <span class="ru">Отправить бизнес-отчёт →</span>
+  </button>
+</div>
+
+<div class="card done" id="done">
+  <div class="tick">✓</div>
+  <h2 style="font-size:1.15rem;margin-bottom:.5rem" class="en">Submitted. Thank you.</h2>
+  <h2 style="font-size:1.15rem;margin-bottom:.5rem" class="ru">Отправлено. Спасибо.</h2>
+  <p style="font-size:.8rem;color:#999" class="en">Your report has been recorded for this week.</p>
+  <p style="font-size:.8rem;color:#999" class="ru">Ваш отчёт зафиксирован на эту неделю.</p>
+</div>
+
+<script>
+  // ── CONFIGURATION ──────────────────────────────────────────────
+  // Paste your Apps Script Web App URL here after deployment:
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbygfLE8YHhjd9seIU8yYfKnofm56kISmto1LlY2ItBd7M1vdhA3oNxJdYR11c-9gS5GmA/exec';
+  // ──────────────────────────────────────────────────────────────
+
+  function setLang(l) {
+    document.body.className = l;
+    document.querySelectorAll('.lbtn').forEach(b => b.classList.remove('on'));
+    document.querySelector(`.lbtn[onclick="setLang('${l}')"]`).classList.add('on');
+  }
+
+  const sv = { abRx:0, acnRx:0 };
+  function adj(k, d) { sv[k] = Math.max(0, sv[k]+d); document.getElementById(k).textContent = sv[k]; }
+  function showRepDetail(s) { document.getElementById('repDetail').style.display = s?'block':'none'; }
+  function showComp(s) { document.getElementById('compDetail').style.display = s?'block':'none'; }
+  function showOther(id, show) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('show', show);
+  }
+
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'radio' && e.target.value !== 'other') {
+      const name = e.target.name;
+      const otherRadio = document.querySelector(`input[name="${name}"][value="other"]`);
+      if (otherRadio) {
+        const onch = otherRadio.getAttribute('onchange');
+        if (onch) {
+          const match = onch.match(/'([^']+)'/);
+          if (match) showOther(match[1], false);
+        }
+      }
+    }
+  });
+
+  function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+  function radio(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+
+  function collectData() {
+    return {
+      formType: 'bm',
+      bmName: val('bmName'),
+      weekEnding: val('weekEnding'),
+      // A
+      abRx: sv.abRx,
+      acnRx: sv.acnRx,
+      momentum: radio('momentum'),
+      betterRange: radio('betterRange'),
+      // B
+      abMatScore: radio('abMat'),
+      acnMatScore: radio('acnMat'),
+      mktAsset: radio('mktAsset'),
+      mktAssetOther: val('mktAssetOtherText'),
+      claimNotLanding: val('claimNotLanding'),
+      // C
+      skuFocus: radio('skuFocus'),
+      skuBarrier: radio('skuBarrier'),
+      skuBarrierOther: val('skuBarrierOtherText'),
+      productFeedback: val('productFeedback'),
+      // D
+      teamPerf: radio('teamPerf'),
+      repAttention: radio('repAttention'),
+      repAttentionDetail: val('repAttentionDetail'),
+      hqNeed: radio('hqNeed'),
+      hqNeedOther: val('hqNeedOtherText'),
+      // E
+      compMove: radio('compMove'),
+      compMoveDetail: val('compMoveDetail'),
+      riskOpportunity: val('riskOpportunity')
+    };
+  }
+
+  async function submitForm() {
+    const btn = document.getElementById('submitBtn');
+    const errMsg = document.getElementById('errMsg');
+    errMsg.classList.remove('show');
+    btn.disabled = true;
+    btn.querySelector('.en').textContent = 'Submitting…';
+    btn.querySelector('.ru').textContent = 'Отправка…';
+
+    const data = collectData();
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.status === 'ok') {
+        document.getElementById('wrap').classList.add('hide');
+        document.getElementById('done').classList.add('show');
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        throw new Error(json.message || 'Unknown error');
+      }
+    } catch(err) {
+      errMsg.classList.add('show');
+      btn.disabled = false;
+      btn.querySelector('.en').textContent = 'Submit Business Report →';
+      btn.querySelector('.ru').textContent = 'Отправить бизнес-отчёт →';
+    }
+  }
+</script>
+</body>
+</html>
